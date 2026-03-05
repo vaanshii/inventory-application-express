@@ -13,6 +13,10 @@ app.use(express.urlencoded({ extended: true }));
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 
+app.get("/", (req, res) => {
+	res.send("Hello");
+});
+
 app.listen(PORT, (error) => {
 	if (error) {
 		throw error;
