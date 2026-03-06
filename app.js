@@ -1,8 +1,9 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("node:path");
-
 const app = express();
+
+const firearmRouter = require("./routes/firearmRoutes");
 
 const PORT = process.env.SERVER_PORT;
 
@@ -13,9 +14,7 @@ app.use(express.urlencoded({ extended: true }));
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 
-app.get("/", (req, res) => {
-	res.send("Hello");
-});
+app.use("/", firearmRouter);
 
 app.listen(PORT, (error) => {
 	if (error) {
