@@ -3,7 +3,7 @@ const pool = require("./pool");
 const initQuery = `
     CREATE TABLE IF NOT EXISTS Manufacturers (
         ManufacturerID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-        Name VARCHAR(100) NOT NULL,
+        Name VARCHAR(100) UNIQUE NOT NULL,
         Country VARCHAR(50),
         ImagePath VARCHAR(255)
     );
