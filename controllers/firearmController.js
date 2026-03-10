@@ -1,7 +1,7 @@
 exports.listFirearmsGet = (req, res) => {
 	// query here to get all firearms
 	res.render("views/index", {
-		title: "Armory Inventory | Firearms",
+		title: "ArmaVault | Firearms",
 	});
 };
 

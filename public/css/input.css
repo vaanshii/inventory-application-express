@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+/* Custom Utility classes */
+@utility res-text-heading-1 {
+	@apply text-[clamp(1.5rem,5vw,3.5rem)];
+}
+
+@utility res-text-heading-2 {
+	@apply text-[clamp(1rem,3.5vw,1.8rem)];
+}
+
+@utility res-text-subheading {
+	@apply text-[clamp(1.125rem,3vw,1.75rem)];
+}
+
+@utility res-text-body-text {
+	@apply text-[clamp(0.875rem,1.5vw,1.125rem)];
+}

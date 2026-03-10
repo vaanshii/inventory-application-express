@@ -1,8 +1,12 @@
-<div class="sidebar">
-  <div class="content">
-    <ul>
-      <li><a href="/">Firearms</a></li>
-      <li><a href="/add">Add Firearm</a></li>
+<div class="sidebar px-3.5 py-4">
+  <div class="flex flex-col gap-4">
+    <div class="flex justify-between items-start border-b-2 border-slate-700 h-12 md:h-16">
+      <h1 class="res-text-subheading font-bold font-mono">ArmaVault</h1>
+      <button @click="sidebarOpen = false" class="md:hidden">✕</button>
+    </div>
+    <ul class="flex flex-col gap-2">
+      <li><a href="/" class="res-text-heading-2">Firearms</a></li>
+      <li><a href="/add" class="res-text-heading-2">Add Firearm</a></li>
     </ul>
   </div>
 </div>
