@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const path = require("node:path");
+const expressLayouts = require("express-ejs-layouts");
 const app = express();
 
 const firearmRouter = require("./routes/firearmRoutes");
@@ -10,6 +11,9 @@ const PORT = process.env.SERVER_PORT;
 app.set("views", path.join(__dirname), "views");
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+
+app.use(expressLayouts);
+app.set("layout", "views/layouts/main");
 
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
