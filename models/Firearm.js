@@ -5,14 +5,22 @@ class Firearm {
 		id,
 		modelName,
 		serialNumber,
+		ammoType,
+		caliberName,
 		purchasePrice,
+		newManufacturerName,
+		country,
 		manufacturerId,
 		imagePath,
 	}) {
 		this.id = id;
 		this.modelName = modelName;
 		this.serialNumber = serialNumber;
+		this.ammoType = ammoType;
+		this.caliberName = caliberName;
 		this.purchasePrice = purchasePrice;
+		this.newManufacturerName = newManufacturerName;
+		this.country = country;
 		this.manufacturerId = manufacturerId;
 		this.imagePath = imagePath || "default-gun-png";
 	}
