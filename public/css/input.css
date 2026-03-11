@@ -6,7 +6,7 @@
 }
 
 @utility res-text-heading-2 {
-	@apply text-[clamp(1rem,3.5vw,1.8rem)];
+	@apply text-[clamp(1.3rem,3.5vw,1.8rem)];
 }
 
 @utility res-text-subheading {
@@ -15,4 +15,10 @@
 
 @utility res-text-body-text {
 	@apply text-[clamp(0.875rem,1.5vw,1.125rem)];
+}
+
+@layer components {
+	.active {
+		@apply bg-slate-700;
+	}
 }

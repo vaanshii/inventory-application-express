@@ -1,2 +1,12 @@
-<h1 class="res-text-heading-1">Welcome To ArmaVault</h1>
-<p class="res-text-body-text">This is the main page</p>
+<div class="flex flex-col gap-10">
+  <div>
+    <h1 class="res-text-heading-1">Welcome To ArmaVault</h1>
+    <p class="res-text-body-text">This is the main page</p>
+  </div>
+
+  <div class="flex flex-wrap justify-center gap-6 xl:justify-start">
+    <%- include('components/firearmCard') %>
+    <%- include('components/firearmCard') %>
+    <%- include('components/firearmCard') %>
+  </div>
+</div>
