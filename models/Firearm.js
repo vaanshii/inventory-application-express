@@ -8,7 +8,7 @@ class Firearm {
 		ammoType,
 		caliberName,
 		purchasePrice,
-		newManufacturerName,
+		manufacturerName,
 		country,
 		manufacturerId,
 		imagePath,
@@ -19,7 +19,7 @@ class Firearm {
 		this.ammoType = ammoType;
 		this.caliberName = caliberName;
 		this.purchasePrice = purchasePrice;
-		this.newManufacturerName = newManufacturerName;
+		this.manufacturerName = manufacturerName;
 		this.country = country;
 		this.manufacturerId = manufacturerId;
 		this.imagePath = imagePath || "default-gun-png";
@@ -35,6 +35,28 @@ class Firearm {
 		return true;
 	}
 
+	static async getAll() {
+		const query = `
+			SELECT
+				f.*,
+				m.Name as manufacturer_name,
+				m.Country as manufacturer_country,
+				a.CaliberName as caliber,
+				a.Type as ammo_category
+			FROM Firearms f
+			LEFT JOIN Manufacturers m ON f.ManufacturerID = m.ManufacturerID
+			LEFT JOIN Ammo_Types a ON f.AmmoID = a.AmmoID;
+		`;
+
+		try {
+			const { rows } = await pool.query(query);
+			return rows;
+		} catch (error) {
+			console.error("[getAll]Query Error: ", error);
+			throw error;
+		}
+	}
+
 	static async createWithCheck(gunData) {
 		this.validate(gunData);
 
@@ -46,12 +68,12 @@ class Firearm {
 			let finalMfgId = gunData.manufacturerId;
 			let finalAmmoId = gunData.ammoId;
 
-			if (!finalMfgId && gunData.newManufacturerName && gunData.country) {
+			if (!finalMfgId && gunData.manufacturerName && gunData.country) {
 				const mfgResult = await pool.query(
 					`INSERT INTO Manufacturers (Name, Country) VALUES ($1, $2) 
                  ON CONFLICT (Name) DO UPDATE SET Name=EXCLUDED.Name 
                  RETURNING ManufacturerID`,
-					[gunData.newManufacturerName, gunData.country],
+					[gunData.manufacturerName, gunData.country],
 				);
 				finalMfgId = mfgResult.rows[0].manufacturerid;
 			}
@@ -69,14 +91,16 @@ class Firearm {
 			}
 
 			const query = `
-            INSERT INTO Firearms (ModelName, SerialNumber, ManufacturerID, AmmoID)
-            VALUES ($1, $2, $3, $4) RETURNING *;
+            INSERT INTO Firearms (ModelName, SerialNumber, PurchasePrice, ManufacturerID, AmmoID, imagepath)
+            VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
         `;
 			const values = [
 				gunData.modelName,
 				gunData.serialNumber,
+				gunData.purchasePrice,
 				finalMfgId,
 				finalAmmoId,
+				gunData.imagePath,
 			];
 			const { rows } = await pool.query(query, values);
 
