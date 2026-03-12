@@ -1,20 +1,18 @@
 <div class="w-[clamp(300px,15vw,600px)] bg-slate-950 rounded-2xl shadow-2xl">
   <div>
-    <img src="" alt="Firearm Model" class="w-full h-full object-cover rounded-t-2xl shadow-lg bg-slate-500" onerror="this.src='https://clipart-library.com/images/XyckbAKTE.png'">
+    <img src="<%= firearm.imagepath %>" alt="Firearm Model" class="w-full h-full object-cover rounded-t-2xl shadow-lg bg-slate-500" onerror="this.src='https://clipart-library.com/images/XyckbAKTE.png'">
   </div>
 
-  <!-- Placeholder data for now -->
-
   <div class="px-2.5 pb-2">
-    <h1 class="res-text-heading-2 border-b border-slate-600/50 py-1.5 text-lime-300/90 font-semibold">HK416</h1>
+    <h1 class="res-text-heading-2 border-b border-slate-600/50 py-1.5 text-lime-300/90 font-semibold"><%= firearm.modelname%></h1>
     <div class="res-text-body-text py-1 border-b border-slate-600/50 flex justify-between">
-      <span>Serial Number: </span> <span class="font-semibold">SN43454</span>
+      <span>Serial Number: </span> <span class="font-semibold"><%= firearm.serialnumber || 'N/A' %></span>
     </div>
     <div class="res-text-body-text  py-1 border-b border-slate-600/50 flex justify-between">
-      <span>Purchase Price: </span> <span class="font-semibold">$2,500</span>
+      <span>Purchase Price: </span> <span class="font-semibold"><%= firearm.purchaseprice || 'N/A' %></span>
     </div>
     <div class="res-text-body-text py-1 flex justify-between">
-      <span>Manufacturer: </span> <span class="font-semibold text-end max-w-35">Heckler & Koch</span>
+      <span>Manufacturer: </span> <span class="font-semibold text-end max-w-35"><%= firearm.manufacturer_name || 'N/A' %></span>
     </div>
   </div>
 </div>
