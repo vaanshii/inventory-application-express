@@ -1,6 +1,19 @@
 const pool = require("./pool");
 
 const initQuery = `
+    CREATE TABLE IF NOT EXISTS Category(
+        Category_ID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+        Name VARCHAR(30)
+    );
+
+    INSERT INTO Category (Name) VALUES
+        ('Handguns'),
+        ('Rifles'),
+        ('Submachine Guns'),
+        ('Machine Guns'),
+        ('Sniper Rifles'),
+        ('Heavy Weapons');
+
     CREATE TABLE IF NOT EXISTS Manufacturers (
         ManufacturerID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         Name VARCHAR(100) UNIQUE NOT NULL,
