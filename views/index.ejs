@@ -4,9 +4,13 @@
     <p class="res-text-body-text">This is the main page</p>
   </div>
 
-  <div class="flex flex-wrap justify-center gap-6 xl:justify-start">
-    <%- include('components/firearmCard') %>
-    <%- include('components/firearmCard') %>
-    <%- include('components/firearmCard') %>
+  <div class="flex flex-wrap justify-center gap-6 xl:justify-start overflow-y-auto max-h-[80vh]">
+    <% if (locals.firearms) { %>
+    <% firearms.forEach(firearm => { %>
+    <%- include('components/firearmCard', {firearm}) %>
+    <% }) %>
+    <% } %>
+
+
   </div>
 </div>
