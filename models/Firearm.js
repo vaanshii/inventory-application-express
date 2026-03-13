@@ -91,8 +91,8 @@ class Firearm {
 			}
 
 			const query = `
-            INSERT INTO Firearms (ModelName, SerialNumber, PurchasePrice, ManufacturerID, AmmoID, imagepath)
-            VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;
+            INSERT INTO Firearms (ModelName, SerialNumber, PurchasePrice, ManufacturerID, AmmoID, imagepath, category_id)
+            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;
         `;
 			const values = [
 				gunData.modelName,
@@ -101,6 +101,7 @@ class Firearm {
 				finalMfgId,
 				finalAmmoId,
 				gunData.imagePath,
+				gunData.category,
 			];
 			const { rows } = await pool.query(query, values);
 
@@ -125,6 +126,20 @@ class Firearm {
         `;
 		const { rows } = await pool.query(query, [id]);
 		return rows[0] ? new Firearm(rows[0]) : null;
+	}
+
+	static async findBySerialNumber(serialNumber) {
+		try {
+			const result = await pool.query(
+				`SELECT firearmid FROM firearms WHERE serialnumber = $1`,
+				[serialNumber],
+			);
+
+			return result.rows[0];
+		} catch (error) {
+			console.error("[findBySerialNumber] Query Error: ", error);
+			throw error;
+		}
 	}
 
 	async getAttachments() {
