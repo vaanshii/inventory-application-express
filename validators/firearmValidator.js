@@ -1,4 +1,5 @@
 const { body } = require("express-validator");
+const Firearm = require("../models/Firearm");
 
 const lengthErrorMsg = (number) =>
 	`must be between 1 and ${number} characters.`;
@@ -19,7 +20,17 @@ const validateFirearm = [
 		.withMessage(`Serial Number ${emptyValue}`)
 		.bail()
 		.isLength({ min: 1, max: 20 })
-		.withMessage(`Serial Number ${lengthErrorMsg(20)}`),
+		.withMessage(`Serial Number ${lengthErrorMsg(20)}`)
+		.bail()
+		.custom(async (serialNumber) => {
+			const firearm = await Firearm.findBySerialNumber(serialNumber);
+
+			if (firearm) {
+				throw new Error("Serial number already exists.");
+			}
+
+			return true;
+		}),
 	body("ammoType")
 		.trim()
 		.notEmpty()
