@@ -14,6 +14,8 @@ exports.listFirearmsGet = async (req, res) => {
 	res.render("views/index", {
 		title: "ArmaVault | Firearms",
 		firearms: firearmData,
+		index: "active",
+		add: "",
 	});
 };
 
@@ -25,13 +27,14 @@ exports.showFirearmGet = (req, res) => {
 exports.addFirearmGet = async (req, res) => {
 	const today = getCurrentDate;
 	const categories = await Category.getCategories();
-	console.log(categories);
 
 	res.render("views/addFirearm", {
 		title: "Add Firearm",
 		formData: "",
 		maxDate: today,
 		categories: categories,
+		add: "active",
+		index: "",
 	});
 };
 
@@ -63,6 +66,8 @@ exports.addFirearmPost = [
 					maxDate: today,
 					formData: req.body,
 					categories: categories,
+					add: "active",
+					index: "",
 				});
 			}
 		}

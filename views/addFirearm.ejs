@@ -78,7 +78,7 @@
         <label for="purchasePrice" class="block res-text-body-text mb-1">
           Purchase Price
         </label>
-        <input type="number" id="purchasePrice" value="<%= formData?.purchasePrice || '' %>" name="purchasePrice" placeholder="2500" class="w-full bg-slate-700 rounded px-3 py-2" />
+        <input type="number" id="purchasePrice" min=0 value="<%= formData?.purchasePrice || '' %>" name="purchasePrice" placeholder="2500" class="w-full bg-slate-700 rounded px-3 py-2" />
       </div>
 
       <!-- Purchase Date -->
