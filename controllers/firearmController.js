@@ -6,14 +6,22 @@ const Category = require("../models/Category");
 const getCurrentDate = require("../utils/getCurrentDate");
 
 exports.listFirearmsGet = async (req, res) => {
-	const firearmData = await Firearm.getAll();
+	const { category } = req.query;
+	let firearms;
 
-	// * logging
-	// console.log(firearmData);
+	if (category) {
+		firearms = await Firearm.getById(category);
+	} else {
+		firearms = await Firearm.getAll();
+	}
+
+	const categories = await Category.getAll();
+	console.log(categories);
 
 	res.render("views/index", {
 		title: "ArmaVault | Firearms",
-		firearms: firearmData,
+		firearms: firearms,
+		categories: categories,
 		index: "active",
 		add: "",
 	});
@@ -26,7 +34,8 @@ exports.showFirearmGet = (req, res) => {
 
 exports.addFirearmGet = async (req, res) => {
 	const today = getCurrentDate;
-	const categories = await Category.getCategories();
+	const categories = await Category.getAll();
+	console.log(categories);
 
 	res.render("views/addFirearm", {
 		title: "Add Firearm",
@@ -41,7 +50,7 @@ exports.addFirearmGet = async (req, res) => {
 exports.addFirearmPost = [
 	validateFirearm,
 	async (req, res) => {
-		const categories = await Category.getCategories();
+		const categories = await Category.getAll();
 		const today = getCurrentDate;
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
@@ -51,6 +60,8 @@ exports.addFirearmPost = [
 				maxDate: today,
 				formData: req.body,
 				categories: categories,
+				add: "active",
+				index: "",
 			});
 		}
 		const gunData = matchedData(req);
