@@ -73,6 +73,7 @@ const validateFirearm = [
 		.optional({ values: "falsy" })
 		.isURL()
 		.withMessage("Image Link must be a valid link."),
+	body("category").toInt().isNumeric(),
 ];
 
 module.exports = validateFirearm;
