@@ -21,4 +21,8 @@
 	.active {
 		@apply bg-slate-700;
 	}
+
+	.sidebar-item {
+		@apply res-text-subheading py-1 px-3.5 md:text-2xl md:py-0 hover:bg-slate-700;
+	}
 }

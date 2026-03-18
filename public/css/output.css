@@ -661,12 +661,6 @@
       padding: calc(var(--spacing) * 6);
     }
   }
-  .md\:text-2xl {
-    @media (width >= 48rem) {
-      font-size: var(--text-2xl);
-      line-height: var(--tw-leading, var(--text-2xl--line-height));
-    }
-  }
   .xl\:justify-start {
     @media (width >= 80rem) {
       justify-content: flex-start;
@@ -676,6 +670,23 @@
 @layer components {
   .active {
     background-color: var(--color-slate-700);
+  }
+  .sidebar-item {
+    padding-inline: calc(var(--spacing) * 3.5);
+    padding-block: calc(var(--spacing) * 1);
+    font-size: clamp(1.125rem, 3vw, 1.75rem);
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-slate-700);
+      }
+    }
+    @media (width >= 48rem) {
+      padding-block: calc(var(--spacing) * 0);
+    }
+    @media (width >= 48rem) {
+      font-size: var(--text-2xl);
+      line-height: var(--tw-leading, var(--text-2xl--line-height));
+    }
   }
 }
 @property --tw-translate-x {
