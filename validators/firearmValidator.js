@@ -74,6 +74,7 @@ const validateFirearm = [
 		.isURL()
 		.withMessage("Image Link must be a valid link."),
 	body("category").toInt().isNumeric(),
+	body("purchaseDate").isDate().withMessage("Enter a valid date."),
 ];
 
 module.exports = validateFirearm;

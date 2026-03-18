@@ -39,7 +39,6 @@ exports.showFirearmGet = (req, res) => {
 exports.addFirearmGet = async (req, res) => {
 	const today = getCurrentDate;
 	const categories = await Category.getAll();
-	console.log(categories);
 
 	res.render("views/addFirearm", {
 		title: "Add Firearm",

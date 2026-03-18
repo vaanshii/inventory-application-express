@@ -8,6 +8,7 @@ class Firearm {
 		ammoType,
 		caliberName,
 		purchasePrice,
+		purchaseDate,
 		manufacturerName,
 		country,
 		manufacturerId,
@@ -20,6 +21,7 @@ class Firearm {
 		this.ammoType = ammoType;
 		this.caliberName = caliberName;
 		this.purchasePrice = purchasePrice;
+		this.purchaseDate = purchaseDate;
 		this.manufacturerName = manufacturerName;
 		this.country = country;
 		this.manufacturerId = manufacturerId;
@@ -120,8 +122,8 @@ class Firearm {
 			}
 
 			const query = `
-            INSERT INTO Firearms (ModelName, SerialNumber, PurchasePrice, ManufacturerID, AmmoID, imagepath, category_id)
-            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *;
+            INSERT INTO Firearms (ModelName, SerialNumber, PurchasePrice, ManufacturerID, AmmoID, imagepath, category_id, PurchaseDate)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *;
         `;
 			const values = [
 				gunData.modelName,
@@ -131,6 +133,7 @@ class Firearm {
 				finalAmmoId,
 				gunData.imagePath,
 				gunData.category,
+				gunData.purchaseDate,
 			];
 			const { rows } = await pool.query(query, values);
 
