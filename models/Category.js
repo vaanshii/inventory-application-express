@@ -5,7 +5,7 @@ class Category {
 		((this.id = id), (this.name = name));
 	}
 
-	static async getCategories() {
+	static async getAll() {
 		const query = `
         SELECT * FROM Category ORDER BY Name ASC;
         `;
