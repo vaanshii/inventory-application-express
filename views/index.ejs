@@ -1,7 +1,11 @@
 <div class="flex flex-col gap-10">
   <div>
-    <h1 class="res-text-heading-1">Welcome To ArmaVault</h1>
-    <p class="res-text-body-text">This is the main page</p>
+    <h1 class="res-text-heading-1"><%= currentCategoryName || "Welcome to ArmaVault" %></h1>
+    <% if (firearms.length > 0 ) { %>
+    <p class="res-text-body-text"> <%= currentCategoryName ? null : "Here's all your firearm inventory" %></p>
+    <% }  else { %>
+    <p class="res-text-body-text">You have no firearm in your <%= currentCategoryName || "inventory" %></p>
+    <% } %>
   </div>
 
   <div class="flex flex-wrap justify-center gap-6 xl:justify-start overflow-y-auto max-h-[80vh]">
