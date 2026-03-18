@@ -8,15 +8,18 @@ const getCurrentDate = require("../utils/getCurrentDate");
 exports.listFirearmsGet = async (req, res) => {
 	const { category } = req.query;
 	let firearms;
+	let currentCategoryName;
 
 	if (category) {
 		firearms = await Firearm.getById(category);
+
+		const currentCategory = await Category.getById(category);
+		currentCategoryName = currentCategory[0].name;
 	} else {
 		firearms = await Firearm.getAll();
 	}
 
 	const categories = await Category.getAll();
-	console.log(categories);
 
 	res.render("views/index", {
 		title: "ArmaVault | Firearms",
@@ -24,6 +27,7 @@ exports.listFirearmsGet = async (req, res) => {
 		categories: categories,
 		index: "active",
 		add: "",
+		currentCategoryName: currentCategoryName,
 	});
 };
 
