@@ -2,7 +2,7 @@ const { Router } = require("express");
 const firearmController = require("../controllers/firearmController");
 const firearmRouter = Router();
 
-firearmRouter.get("/", firearmController.listFirearmsGet);
+firearmRouter.get("/{firearms}", firearmController.listFirearmsGet);
 
 firearmRouter.get("/firearm/id", firearmController.showFirearmGet);
 
