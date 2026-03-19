@@ -25,15 +25,26 @@ exports.listFirearmsGet = async (req, res) => {
 		title: "ArmaVault | Firearms",
 		firearms: firearms,
 		categories: categories,
-		index: "active",
-		add: "",
+		activePage: "index",
 		currentCategoryName: currentCategoryName,
 	});
 };
 
-exports.showFirearmGet = (req, res) => {
-	// query firearm by Id here
-	res.render("views/showFirearm", { title: "Gun Name" });
+exports.showFirearmGet = async (req, res) => {
+	const param = req.params;
+	const firearmId = param.id;
+	console.log({ firearmId });
+
+	const firearmData = await Firearm.getById(firearmId);
+	console.log({ firearmData });
+
+	const categories = await Category.getAll();
+	res.render("views/showFirearm", {
+		title: "",
+		activePage: "",
+		categories: categories,
+		firearm: firearmData[0],
+	});
 };
 
 exports.addFirearmGet = async (req, res) => {
@@ -45,8 +56,7 @@ exports.addFirearmGet = async (req, res) => {
 		formData: "",
 		maxDate: today,
 		categories: categories,
-		add: "active",
-		index: "",
+		activePage: "add",
 	});
 };
 
@@ -63,8 +73,7 @@ exports.addFirearmPost = [
 				maxDate: today,
 				formData: req.body,
 				categories: categories,
-				add: "active",
-				index: "",
+				activePage: "add",
 			});
 		}
 		const gunData = matchedData(req);
@@ -80,8 +89,7 @@ exports.addFirearmPost = [
 					maxDate: today,
 					formData: req.body,
 					categories: categories,
-					add: "active",
-					index: "",
+					activePage: "add",
 				});
 			}
 		}
