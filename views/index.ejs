@@ -8,7 +8,7 @@
     <% } %>
   </div>
 
-  <div class="flex flex-wrap justify-center gap-6 xl:justify-start overflow-y-auto max-h-[80vh]">
+  <div class="flex flex-wrap justify-center gap-6 py-2 xl:justify-start overflow-y-auto max-h-[80vh]">
     <% if (locals.firearms) { %>
     <% firearms.forEach(firearm => { %>
     <%- include('components/firearmCard', {firearm}) %>
