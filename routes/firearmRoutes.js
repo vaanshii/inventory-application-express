@@ -4,7 +4,7 @@ const firearmRouter = Router();
 
 firearmRouter.get("/{firearms}", firearmController.listFirearmsGet);
 
-firearmRouter.get("/firearm/id", firearmController.showFirearmGet);
+firearmRouter.get("/firearm/:id", firearmController.showFirearmGet);
 
 firearmRouter.get("/add", firearmController.addFirearmGet);
 
