@@ -5,8 +5,8 @@
       <button @click="sidebarOpen = false" class="md:hidden">✕</button>
     </div>
     <ul class="flex flex-col gap-2 ">
-      <li class="<%= index %> sidebar-item"><a href="/">Firearms</a></li>
-      <li class="<%= add %> sidebar-item"><a href="/add">Add Firearm</a></li>
+      <li class="<%= activePage === 'index' ? 'active' : '' %> sidebar-item"><a href="/">Firearms</a></li>
+      <li class="<%= activePage === 'add' ? 'active' : '' %> sidebar-item"><a href="/add">Add Firearm</a></li>
     </ul>
   </div>
   <div class="flex flex-col gap-2">
