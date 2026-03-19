@@ -33,10 +33,8 @@ exports.listFirearmsGet = async (req, res) => {
 exports.showFirearmGet = async (req, res) => {
 	const param = req.params;
 	const firearmId = param.id;
-	console.log({ firearmId });
 
 	const firearmData = await Firearm.getById(firearmId);
-	console.log({ firearmData });
 
 	const categories = await Category.getAll();
 	res.render("views/showFirearm", {
