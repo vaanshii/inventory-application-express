@@ -76,7 +76,7 @@ class Firearm {
 			LEFT JOIN Manufacturers m ON f.ManufacturerID = m.ManufacturerID
 			LEFT JOIN Ammo_Types a ON f.AmmoID = a.AmmoID
 			LEFT JOIN Category c ON f.category_id = c.category_id
-			WHERE f.category_id = $1;
+			WHERE f.firearmid = $1;
 		`;
 
 		try {
