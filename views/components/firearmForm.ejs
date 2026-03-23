@@ -1,0 +1,112 @@
+<form action="<%= action %>" method="post" class="bg-slate-800 p-6 max-h-[80vh] md:max-h-full overflow-auto rounded-lg space-y-6 max-w-2xl flex flex-col gap-3">
+
+  <h2 class="text-lg res-text-heading-2">
+    <%= isEdit ? 'Edit Firearm Information' : 'Firearm Information' %>
+  </h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+    <!-- Category -->
+    <div>
+      <label for="category" class="block res-text-body-text mb-1">
+        Category
+      </label>
+      <select name="category" id="category" class="w-full bg-slate-700 rounded px-3 py-2">
+        <% categories.forEach(category => { %>
+        <option value="<%= category.category_id %>" <%= formData.category_name === category.name ? 'selected' : ''%>>
+          <%= category.name %>
+        </option>
+        <% }) %>
+      </select>
+    </div>
+
+    <!-- Model Name -->
+    <div>
+      <label for="modelName" class="block res-text-body-text mb-1">
+        Model Name
+      </label>
+      <input type="text" id="modelName" name="modelName" value="<%= formData?.modelName || '' %>" placeholder="Glock 17" class="w-full bg-slate-700 rounded px-3 py-2" />
+    </div>
+
+    <!-- Serial Number -->
+    <div>
+      <label for="serialNumber" class="block res-text-body-text mb-1">
+        Serial Number
+      </label>
+      <input type="text" id="serialNumber" name="serialNumber" value="<%= formData?.serialNumber || '' %>" placeholder="ABC123456" class="w-full bg-slate-700 rounded px-3 py-2" />
+    </div>
+
+    <!-- Ammo Type -->
+    <div>
+      <label for="ammoType" class="block res-text-body-text mb-1">
+        Ammo Type
+      </label>
+      <input type="text" id="ammoType" name="ammoType" value="<%= formData?.ammoType || '' %>" placeholder="FMJ" class="w-full bg-slate-700 rounded px-3 py-2" />
+    </div>
+
+    <!-- Caliber -->
+    <div>
+      <label for="caliberName" class="block res-text-body-text mb-1">
+        Caliber
+      </label>
+      <input type="text" id="caliberName" name="caliberName" value="<%= formData?.caliberName || '' %>" placeholder="9mm" class="w-full bg-slate-700 rounded px-3 py-2" />
+    </div>
+
+    <!-- Manufacturer -->
+    <div>
+      <label for="manufacturerName" class="block res-text-body-text mb-1">
+        Manufacturer
+      </label>
+      <input type="text" id="manufacturerName" name="manufacturerName" value="<%= formData?.manufacturerName || '' %>" placeholder="Heckler & Koch" class="w-full bg-slate-700 rounded px-3 py-2" />
+    </div>
+
+    <!-- Country -->
+    <div>
+      <label for="country" class="block res-text-body-text mb-1">
+        Country
+      </label>
+      <input type="text" id="country" name="country" value="<%= formData?.country || '' %>" placeholder="US" class="w-full bg-slate-700 rounded px-3 py-2" />
+    </div>
+
+    <!-- Purchase Price -->
+    <div>
+      <label for="purchasePrice" class="block res-text-body-text mb-1">
+        Purchase Price
+      </label>
+      <input type="number" id="purchasePrice" min=0 value="<%= formData?.purchasePrice || '' %>" name="purchasePrice" placeholder="2500" class="w-full bg-slate-700 rounded px-3 py-2" />
+    </div>
+
+    <!-- Purchase Date -->
+    <div>
+      <label for="purchaseDate" class="block res-text-body-text mb-1">
+        Purchase Date
+      </label>
+      <input type="date" max="<%= maxDate %>" id="purchaseDate" value="<%= formData?.purchaseDate || '' %>" name="purchaseDate" onclick="this.showPicker()" class="w-full bg-slate-700 rounded px-3 py-2" />
+    </div>
+
+  </div>
+
+  <!-- Image Upload -->
+  <!-- <div class="relative flex w-full max-w-sm flex-col gap-1">
+      <label class="w-fit pl-0.5 text-sm text-on-surface dark:text-on-surface-dark" for="firearmImage">Firearm Image</label>
+      <input id="firearmImage" name="firearmImage" type="file" class="w-full overflow-clip rounded-md border border-outline bg-surface-alt/50 text-sm text-on-surface file:mr-4 file:border-none file:bg-surface-alt file:px-4 file:py-2 file:font-medium file:text-on-surface-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-75 dark:border-outline-dark dark:bg-surface-dark-alt/50 dark:text-on-surface-dark dark:file:bg-surface-dark-alt dark:file:text-on-surface-dark-strong dark:focus-visible:outline-primary-dark" />
+    </div> -->
+
+  <!-- Image Link for now -->
+  <div>
+    <label for="imagePath" class="block res-text-body-text mb-1">
+      Image Link
+    </label>
+    <input type="text" id="imagePath" value="<%= formData?.imagePath || '' %>" name="imagePath" placeholder="https://image" class="w-full bg-slate-700 rounded px-3 py-2" />
+  </div>
+
+  <!-- Submit -->
+  <div class="flex justify-end">
+
+    <button type="submit" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">
+      <%= isEdit ? 'Edit Firearm' : 'Add Firearm' %>
+    </button>
+
+  </div>
+
+</form>
