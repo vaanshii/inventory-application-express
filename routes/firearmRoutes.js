@@ -10,4 +10,8 @@ firearmRouter.get("/add", firearmController.addFirearmGet);
 
 firearmRouter.post("/create", firearmController.addFirearmPost);
 
+firearmRouter.get("/firearm/edit/:id", firearmController.editFirearmGet);
+
+firearmRouter.put("/firearm/update/:id", firearmController.updateFirearmPut);
+
 module.exports = firearmRouter;
