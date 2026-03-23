@@ -149,6 +149,68 @@ class Firearm {
 		}
 	}
 
+	static async updateWithCheck(id, gunData) {
+		this.validate(data);
+		const client = await pool.connect();
+		try {
+			await client.query("BEGIN");
+
+			let finalMfgId = gunData.manufacturerId;
+			let finalAmmoId = gunData.ammoId;
+
+			if (!finalMfgId && gunData.manufacturerName) {
+				const mfgResult = await client.query(
+					`INSERT INTO Manufacturers (Name, Country) VALUES ($1, $2) 
+                 ON CONFLICT (Name) DO UPDATE SET Name=EXCLUDED.Name 
+                 RETURNING ManufacturerID`,
+					[gunData.manufacturerName, gunData.country || "Unknown"],
+				);
+				finalMfgId = mfgResult.rows[0].manufacturerid;
+			}
+
+			if (!finalAmmoId && gunData.caliberName) {
+				const ammoResult = await client.query(
+					`INSERT INTO Ammo_Types (CaliberName, Type) VALUES($1, $2)
+                 ON CONFLICT (CaliberName) DO UPDATE SET CaliberName=EXCLUDED.CaliberName
+                 RETURNING AmmoID`,
+					[gunData.caliberName, gunData.ammoType || "Unknown"],
+				);
+				finalAmmoId = ammoResult.rows[0].ammoid;
+			}
+
+			const query = `
+            UPDATE Firearms 
+            SET ModelName = $1, SerialNumber = $2, PurchasePrice = $3, 
+                ManufacturerID = $4, AmmoID = $5, imagepath = $6, 
+                category_id = $7, PurchaseDate = $8
+            WHERE FirearmID = $9 
+            RETURNING *;
+        `;
+
+			const values = [
+				gunData.modelName,
+				gunData.serialNumber,
+				gunData.purchasePrice,
+				finalMfgId,
+				finalAmmoId,
+				gunData.imagePath,
+				gunData.category,
+				gunData.purchaseDate,
+				id,
+			];
+
+			const { rows } = await client.query(query, values);
+			await client.query("COMMIT");
+			return rows[0];
+		} catch (error) {
+			await client.query("ROLLBACK");
+			console.error("[updateWithCheck] Error: ", error);
+			throw error;
+		} finally {
+			client.release();
+		}
+	}
+
 	static async findById(id) {
 		const query = `
             SELECT f.*, m.Name as ManufacturerName
