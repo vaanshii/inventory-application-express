@@ -3,7 +3,9 @@ const validateFirearm = require("../validators/firearmValidator");
 
 const Firearm = require("../models/Firearm");
 const Category = require("../models/Category");
+
 const getCurrentDate = require("../utils/getCurrentDate");
+const normalizeFirearmVarName = require("../utils/normalizeFirearmVarName");
 
 exports.listFirearmsGet = async (req, res) => {
 	const { category } = req.query;
@@ -35,10 +37,11 @@ exports.showFirearmGet = async (req, res) => {
 	const firearmId = param.id;
 
 	const firearmData = await Firearm.getById(firearmId);
+	console.log({ firearmData });
 
 	const categories = await Category.getAll();
 	res.render("views/showFirearm", {
-		title: "",
+		title: firearmData[0].modelname,
 		activePage: "",
 		categories: categories,
 		firearm: firearmData[0],
@@ -55,6 +58,8 @@ exports.addFirearmGet = async (req, res) => {
 		maxDate: today,
 		categories: categories,
 		activePage: "add",
+		action: "/create",
+		isEdit: false,
 	});
 };
 
@@ -72,6 +77,8 @@ exports.addFirearmPost = [
 				formData: req.body,
 				categories: categories,
 				activePage: "add",
+				action: "/create",
+				isEdit: false,
 			});
 		}
 		const gunData = matchedData(req);
@@ -88,8 +95,42 @@ exports.addFirearmPost = [
 					formData: req.body,
 					categories: categories,
 					activePage: "add",
+					action: "/create",
+					isEdit: false,
 				});
 			}
 		}
+	},
+];
+
+exports.editFirearmGet = async (req, res) => {
+	const param = req.params;
+	const firearmId = param.id;
+
+	const firearmData = await Firearm.getById(firearmId);
+	console.log({ firearmData });
+
+	const normalizedFormDataVar = normalizeFirearmVarName(firearmData[0]);
+	console.log({ normalizedFormDataVar });
+
+	const categories = await Category.getAll();
+	const today = getCurrentDate;
+
+	res.render("views/components/firearmForm", {
+		categories: categories,
+		formData: normalizedFormDataVar,
+		action: `/firearm/update/:id`,
+		maxDate: today,
+		title: `Edit Firearm Details`,
+		activePage: "",
+		isEdit: true,
+	});
+};
+
+exports.updateFirearmPut = [
+	validateFirearm,
+	async (req, res) => {
+		const param = req.params;
+		const firearmId = param.id;
 	},
 ];
