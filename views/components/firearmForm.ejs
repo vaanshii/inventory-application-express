@@ -1,3 +1,5 @@
+<%- include('./errorMsg') %>
+
 <form action="<%= action %>" method="post" class="bg-slate-800 p-6 max-h-[80vh] md:max-h-full overflow-auto rounded-lg space-y-6 max-w-2xl flex flex-col gap-3">
 
   <h2 class="text-lg res-text-heading-2">
@@ -103,7 +105,7 @@
   <!-- Submit -->
   <div class="flex justify-end">
 
-    <button type="submit" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">
+    <button id="<%= isEdit ? 'firearm-submit-btn' : 'submit-btn' %>" type=<%= isEdit ? 'button' : 'submit' %> data-id="<%= formData.firearmId %>" class="bg-green-600 hover:bg-green-700 px-4 py-2 rounded">
       <%= isEdit ? 'Edit Firearm' : 'Add Firearm' %>
     </button>
 
