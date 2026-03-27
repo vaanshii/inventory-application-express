@@ -22,11 +22,25 @@ const validateFirearm = [
 		.isLength({ min: 1, max: 20 })
 		.withMessage(`Serial Number ${lengthErrorMsg(20)}`)
 		.bail()
-		.custom(async (serialNumber) => {
+		// access req object by using { req } object as parameter
+		.custom(async (serialNumber, { req }) => {
+			const firearmId = req.params.id;
 			const firearm = await Firearm.findBySerialNumber(serialNumber);
 
 			if (firearm) {
-				throw new Error("Serial number already exists.");
+				// only throws when editing a firearm SN and it belongs to other firearm.
+				if (
+					firearmId &&
+					firearm.firearmid.toString() !== firearmId.toString()
+				) {
+					throw new Error(
+						"Serial Number is already assigned to another firearm.",
+					);
+				}
+
+				if (!firearmId) {
+					throw new Error("Serial Number already exists.");
+				}
 			}
 
 			return true;
