@@ -4,6 +4,7 @@ function normalizeFirearmVarName(firearmData) {
 	const formattedDate = stringedDate.split("T")[0];
 
 	return {
+		firearmId: firearmData.firearmid,
 		modelName: firearmData.modelname,
 		serialNumber: firearmData.serialnumber,
 		ammoType: firearmData.ammo_category,
