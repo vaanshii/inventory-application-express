@@ -150,7 +150,7 @@ class Firearm {
 	}
 
 	static async updateWithCheck(id, gunData) {
-		this.validate(data);
+		this.validate(gunData);
 		const client = await pool.connect();
 		try {
 			await client.query("BEGIN");
