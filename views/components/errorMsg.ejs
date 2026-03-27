@@ -1,13 +1,22 @@
-<% if (locals.errors) { %>
-<div x-data="{showError: true}" x-show="showError" x-transition.opacity.scale class=" flex flex-col items-center gap-4 w-[clamp(300px,80vw,400px)] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-700 p-5 rounded-2xl border-2 border-red-400">
-  <ul class="flex flex-col gap-1.5">
-    <% errors.forEach(function(error) { %>
-    <li class="text-xs text-red-400 list-disc"> <%= error.msg %></li>
-    <% }); %>
-  </ul>
-  <div>
-    <button @click="showError = false" class="py-2 px-3 rounded bg-red-400 res-text-body-text">Close</button>
-  </div>
+<script>
+  window.SERVER_ERRORS = <%- locals.errors ? JSON.stringify(errors) : '[]' %>;
+</script>
 
+<div x-cloak x-data='{ 
+   showError: window.SERVER_ERRORS.length > 0, 
+   errorList: window.SERVER_ERRORS
+  }' @show-validation-errors.window="showError = true; errorList = $event.detail" x-show="showError" x-transition class="flex flex-col gap-5 fixed z-50 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-slate-800 p-6 rounded-2xl border-2 border-red-500 shadow-2xl w-[clamp(300px,80vw,400px)]">
+  <h3 class="text-red-500 font-bold mb-3 uppercase tracking-wider text-sm">Validation Errors</h3>
+
+  <ul class="flex flex-col gap-2 mb-6">
+    <template x-for="(error, index) in errorList" :key="index">
+      <li class="text-xs text-red-400 list-disc ml-4" x-text="error.msg"></li>
+    </template>
+  </ul>
+
+  <div class="flex justify-center">
+    <button type="button" @click="showError = false" class="py-2 px-6 rounded-lg bg-red-500 text-white text-sm font-bold">
+      Close
+    </button>
+  </div>
 </div>
-<% } %>
