@@ -88,6 +88,31 @@ class Firearm {
 		}
 	}
 
+	static async getByCategory(id) {
+		const query = `
+			SELECT
+				f.*,
+				m.Name as manufacturer_name,
+				m.Country as manufacturer_country,
+				a.CaliberName as caliber,
+				a.Type as ammo_category,
+				c.Name as category_name
+			FROM Firearms f
+			LEFT JOIN Manufacturers m ON f.ManufacturerID = m.ManufacturerID
+			LEFT JOIN Ammo_Types a ON f.AmmoID = a.AmmoID
+			LEFT JOIN Category c ON f.category_id = c.category_id
+			WHERE f.category_id = $1;
+		`;
+
+		try {
+			const { rows } = await pool.query(query, [id]);
+			return rows;
+		} catch (error) {
+			console.error("[getByCategory]Query Error: ", error);
+			throw error;
+		}
+	}
+
 	static async createWithCheck(gunData) {
 		this.validate(gunData);
 
