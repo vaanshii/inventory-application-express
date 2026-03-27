@@ -13,55 +13,80 @@ exports.listFirearmsGet = async (req, res) => {
 	let firearms;
 	let currentCategoryName;
 
-	if (category) {
-		firearms = await Firearm.getByCategory(category);
+	try {
+		if (category) {
+			firearms = await Firearm.getByCategory(category);
 
-		const currentCategory = await Category.getById(category);
-		currentCategoryName = currentCategory[0].name;
-	} else {
-		firearms = await Firearm.getAll();
+			const currentCategory = await Category.getById(category);
+			currentCategoryName = currentCategory[0].name;
+		} else {
+			firearms = await Firearm.getAll();
+		}
+
+		const categories = await Category.getAll();
+
+		res.render("views/index", {
+			title: "ArmaVault | Firearms",
+			firearms: firearms,
+			categories: categories,
+			activePage: "index",
+			currentCategoryName: currentCategoryName,
+		});
+	} catch (error) {
+		console.error("[listFirearmsGet]: ", error);
+		res.status(400).json({
+			success: false,
+			message: "Internal error occure",
+		});
 	}
-
-	const categories = await Category.getAll();
-
-	res.render("views/index", {
-		title: "ArmaVault | Firearms",
-		firearms: firearms,
-		categories: categories,
-		activePage: "index",
-		currentCategoryName: currentCategoryName,
-	});
 };
 
 exports.showFirearmGet = async (req, res) => {
 	const param = req.params;
 	const firearmId = param.id;
 
-	const firearmData = await Firearm.getById(firearmId);
-	console.log({ firearmData });
+	try {
+		const firearmData = await Firearm.getById(firearmId);
+		console.log({ firearmData });
 
-	const categories = await Category.getAll();
-	res.render("views/showFirearm", {
-		title: firearmData[0].modelname,
-		activePage: "",
-		categories: categories,
-		firearm: firearmData[0],
-	});
+		const categories = await Category.getAll();
+		res.render("views/showFirearm", {
+			title: firearmData[0].modelname,
+			activePage: "",
+			categories: categories,
+			firearm: firearmData[0],
+		});
+	} catch (error) {
+		console.error("[showFirearmGet]: ", error);
+		res.status(400).json({
+			success: false,
+			message: "Internal error occure",
+		});
+	}
 };
 
 exports.addFirearmGet = async (req, res) => {
 	const today = getCurrentDate;
-	const categories = await Category.getAll();
 
-	res.render("views/addFirearm", {
-		title: "Add Firearm",
-		formData: "",
-		maxDate: today,
-		categories: categories,
-		activePage: "add",
-		action: "/create",
-		isEdit: false,
-	});
+	try {
+		const categories = await Category.getAll();
+
+		res.render("views/addFirearm", {
+			title: "Add Firearm",
+			formData: "",
+			maxDate: today,
+			categories: categories,
+			activePage: "add",
+			action: "/create",
+			isEdit: false,
+		});
+	} catch (error) {
+		console.error("[addFirearmGet]: ", error);
+		res.status(400).json({
+			success: false,
+			message: "Internal error occure",
+		});
+	}
 };
 
 exports.addFirearmPost = [
@@ -108,25 +133,33 @@ exports.editFirearmGet = async (req, res) => {
 	const param = req.params;
 	const firearmId = param.id;
 
-	const firearmData = await Firearm.getById(firearmId);
-	console.log({ firearmData });
+	try {
+		const firearmData = await Firearm.getById(firearmId);
+		console.log({ firearmData });
 
-	const normalizedFormDataVar = normalizeFirearmVarName(firearmData[0]);
-	console.log({ normalizedFormDataVar });
+		const normalizedFormDataVar = normalizeFirearmVarName(firearmData[0]);
+		console.log({ normalizedFormDataVar });
 
-	const categories = await Category.getAll();
-	const today = getCurrentDate;
+		const categories = await Category.getAll();
+		const today = getCurrentDate;
 
-	res.render("views/components/firearmForm", {
-		categories: categories,
-		formData: normalizedFormDataVar,
-		action: `/firearm/update/:id`,
-		maxDate: today,
-		title: `Edit Firearm Details`,
-		activePage: "",
-		isEdit: true,
-		errors: null,
-	});
+		res.render("views/components/firearmForm", {
+			categories: categories,
+			formData: normalizedFormDataVar,
+			action: `/firearm/update/:id`,
+			maxDate: today,
+			title: `Edit Firearm Details`,
+			activePage: "",
+			isEdit: true,
+			errors: null,
+		});
+	} catch (error) {
+		console.error("[editFirearmGet]: ", error);
+		res.status(400).json({
+			success: false,
+			message: "Internal error occure",
+		});
+	}
 };
 
 exports.updateFirearmPut = [
