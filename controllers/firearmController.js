@@ -6,6 +6,7 @@ const Category = require("../models/Category");
 
 const getCurrentDate = require("../utils/getCurrentDate");
 const normalizeFirearmVarName = require("../utils/normalizeFirearmVarName");
+const today = require("../utils/getCurrentDate");
 
 exports.listFirearmsGet = async (req, res) => {
 	const { category } = req.query;
@@ -124,13 +125,29 @@ exports.editFirearmGet = async (req, res) => {
 		title: `Edit Firearm Details`,
 		activePage: "",
 		isEdit: true,
+		errors: null,
 	});
 };
 
 exports.updateFirearmPut = [
 	validateFirearm,
 	async (req, res) => {
-		const param = req.params;
-		const firearmId = param.id;
+		const firearmId = req.params.id;
+
+		const today = getCurrentDate;
+		const categories = await Category.getAll();
+		const errors = validationResult(req);
+
+		console.log(errors.array());
+
+		if (!errors.isEmpty()) {
+			return res.status(400).json({
+				success: false,
+				errors: errors.array(),
+			});
+		}
+
+		const gunData = matchedData(req);
+		console.log({ gunData });
 	},
 ];
