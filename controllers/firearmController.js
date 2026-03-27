@@ -149,5 +149,27 @@ exports.updateFirearmPut = [
 
 		const gunData = matchedData(req);
 		console.log({ gunData });
+
+		try {
+			await Firearm.updateWithCheck(firearmId, gunData);
+			return res.status(200).json({
+				success: true,
+				message: "Firearm updated successfully!",
+			});
+		} catch (error) {
+			console.error("[updateFirearmPut]: ", error);
+			if (error.code === "23505") {
+				return res.status(400).render("views/components/firearmForm", {
+					categories: categories,
+					formData: normalizedFormDataVar,
+					action: `/firearm/update/:id`,
+					maxDate: today,
+					title: `Edit Firearm Details`,
+					activePage: "",
+					isEdit: true,
+					errors: [{ msg: "Serial number already exists." }],
+				});
+			}
+		}
 	},
 ];
