@@ -1,0 +1,54 @@
+document.addEventListener("DOMContentLoaded", () => {
+	const saveBtn = document.getElementById("firearm-submit-btn");
+
+	if (saveBtn) {
+		saveBtn.addEventListener("click", () => {
+			const firearmId = saveBtn.getAttribute("data-id");
+			updateFirearm(firearmId);
+		});
+	}
+});
+
+async function updateFirearm(firearmId) {
+	const gunData = {
+		modelName: document.getElementById("modelName").value,
+		category: document.getElementById("category").value,
+		serialNumber: document.getElementById("serialNumber").value,
+		ammoType: document.getElementById("ammoType").value,
+		caliberName: document.getElementById("caliberName").value,
+		manufacturerName: document.getElementById("manufacturerName").value,
+		country: document.getElementById("country").value,
+		purchasePrice: document.getElementById("purchasePrice").value || null,
+		purchaseDate: document.getElementById("purchaseDate").value,
+		imagePath: document.getElementById("imagePath").value || null,
+	};
+
+	try {
+		const response = await fetch(`/firearm/update/${firearmId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(gunData),
+		});
+
+		const result = await response.json();
+
+		if (response.ok) {
+			console.log(`[updateFirearm] Success: ${result.message}`);
+			window.location.href = `/firearm/${firearmId}`;
+		} else {
+			console.log(`[updateFirearm] Error: ${result.error}`);
+			setTimeout(() => {
+				const event = new CustomEvent("show-validation-errors", {
+					detail: result.errors,
+				});
+				window.dispatchEvent(event);
+			}, 0);
+		}
+	} catch (error) {
+		console.error("Fetch error:", error);
+	}
+}
+
+window.updateFirearm = updateFirearm;
