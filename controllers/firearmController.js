@@ -14,7 +14,7 @@ exports.listFirearmsGet = async (req, res) => {
 	let currentCategoryName;
 
 	if (category) {
-		firearms = await Firearm.getById(category);
+		firearms = await Firearm.getByCategory(category);
 
 		const currentCategory = await Category.getById(category);
 		currentCategoryName = currentCategory[0].name;
