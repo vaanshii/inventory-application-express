@@ -206,3 +206,26 @@ exports.updateFirearmPut = [
 		}
 	},
 ];
+
+exports.firearmDelete = async (req, res) => {
+	const firearmId = req.params.id;
+
+	try {
+		const deleted = await Firearm.deleteById(firearmId);
+
+		if (deleted) {
+			return res.status(200).json({
+				success: true,
+				message: `Firearm deleted with id: ${firearmId}`,
+			});
+		} else {
+			return res.status(404).json({
+				success: false,
+				message: "Firearm not found",
+			});
+		}
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ error: "Server error during deletion." });
+	}
+};
