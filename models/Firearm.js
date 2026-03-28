@@ -236,6 +236,21 @@ class Firearm {
 		}
 	}
 
+	static async deleteById(id) {
+		const query = `
+			DELETE FROM Firearms WHERE FirearmID = $1;
+		`;
+
+		try {
+			const result = await pool.query(query, [id]);
+			console.log(`[deleteById]: Deleted firearm ${id} Succesfully`);
+			return result.rowCount > 0;
+		} catch (error) {
+			console.error("[deleteById] Query Error: ", error);
+			throw error;
+		}
+	}
+
 	static async findById(id) {
 		const query = `
             SELECT f.*, m.Name as ManufacturerName
