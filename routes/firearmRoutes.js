@@ -2,6 +2,8 @@ const { Router } = require("express");
 const firearmController = require("../controllers/firearmController");
 const firearmRouter = Router();
 
+firearmRouter.delete("/firearm/delete/:id", firearmController.firearmDelete);
+
 firearmRouter.get("/{firearms}", firearmController.listFirearmsGet);
 
 firearmRouter.get("/firearm/:id", firearmController.showFirearmGet);
