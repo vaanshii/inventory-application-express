@@ -1,10 +1,18 @@
 document.addEventListener("DOMContentLoaded", () => {
 	const saveBtn = document.getElementById("firearm-submit-btn");
+	const deleteBtn = document.getElementById("firearm-delete-btn");
 
 	if (saveBtn) {
 		saveBtn.addEventListener("click", () => {
 			const firearmId = saveBtn.getAttribute("data-id");
 			updateFirearm(firearmId);
+		});
+	}
+
+	if (deleteBtn) {
+		deleteBtn.addEventListener("click", () => {
+			const firearmId = deleteBtn.getAttribute("data-id");
+			deleteFirearm(firearmId);
 		});
 	}
 });
@@ -51,4 +59,32 @@ async function updateFirearm(firearmId) {
 	}
 }
 
+async function deleteFirearm(firearmId) {
+	const confirmed = confirm("Delete this firearm?");
+
+	if (!confirmed) return;
+
+	try {
+		const response = await fetch(`/firearm/delete/${firearmId}`, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+
+		if (response.ok) {
+			console.log("[deleteFirearm]: Success Deleting Firearm");
+			window.location.href = "/";
+		} else {
+			const result = await response.json();
+			console.error(
+				`[deleteFirearm] Error: ${result.error || "Could not delete firearm."}`,
+			);
+		}
+	} catch (error) {
+		console.error("Delete fetch error:", error);
+	}
+}
+
 window.updateFirearm = updateFirearm;
+window.deleteFirearm = deleteFirearm;
