@@ -36,7 +36,8 @@ const initQuery = `
         ImagePath VARCHAR(255),
 
         ManufacturerID INT REFERENCES Manufacturers(ManufacturerID),
-        AmmoID INT REFERENCES Ammo_Types(AmmoID)
+        AmmoID INT REFERENCES Ammo_Types(AmmoID),
+        Category_ID INT REFERENCES Category(Category_ID)
     );
 
     CREATE TABLE IF NOT EXISTS Attachments (
