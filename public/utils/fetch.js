@@ -1,18 +1,10 @@
 document.addEventListener("DOMContentLoaded", () => {
 	const saveBtn = document.getElementById("firearm-submit-btn");
-	const deleteBtn = document.getElementById("firearm-delete-btn");
 
 	if (saveBtn) {
 		saveBtn.addEventListener("click", () => {
 			const firearmId = saveBtn.getAttribute("data-id");
 			updateFirearm(firearmId);
-		});
-	}
-
-	if (deleteBtn) {
-		deleteBtn.addEventListener("click", () => {
-			const firearmId = deleteBtn.getAttribute("data-id");
-			deleteFirearm(firearmId);
 		});
 	}
 });
@@ -60,10 +52,6 @@ async function updateFirearm(firearmId) {
 }
 
 async function deleteFirearm(firearmId) {
-	const confirmed = confirm("Delete this firearm?");
-
-	if (!confirmed) return;
-
 	try {
 		const response = await fetch(`/firearm/delete/${firearmId}`, {
 			method: "DELETE",
