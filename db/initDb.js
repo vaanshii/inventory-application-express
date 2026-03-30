@@ -69,7 +69,7 @@ const setupDatabase = async () => {
 	try {
 		await pool.query(initQuery);
 		console.log("[initDB]: Database table initialized.");
-		process.exit(1);
+		process.exit(0);
 	} catch (error) {
 		console.error(`[initDB]: Error initializing database: ${error}`);
 		process.exit(1);
