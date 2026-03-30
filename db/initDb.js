@@ -6,13 +6,12 @@ const initQuery = `
         Name VARCHAR(30)
     );
 
-    INSERT INTO Category (Name) VALUES
-        ('Handguns'),
-        ('Rifles'),
-        ('Submachine Guns'),
-        ('Machine Guns'),
-        ('Sniper Rifles'),
-        ('Heavy Weapons');
+    INSERT INTO Category (Name)
+    SELECT name FROM (VALUES 
+        ('Handguns'), ('Rifles'), ('Submachine Guns'), 
+        ('Machine Guns'), ('Sniper Rifles'), ('Heavy Weapons')
+    ) AS t(name)
+    WHERE NOT EXISTS (SELECT 1 FROM Category WHERE Name = t.name);
 
     CREATE TABLE IF NOT EXISTS Manufacturers (
         ManufacturerID INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
