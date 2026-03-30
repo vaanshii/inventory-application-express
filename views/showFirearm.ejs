@@ -1,3 +1,5 @@
+<%- include('./components/deleteModal') %>
+
 <div class="bg-slate-950 text-slate-200 min-h-screen font-sans">
 
   <!-- Nav bar -->
@@ -11,7 +13,9 @@
       </a>
       <div class="flex gap-3">
         <a href="/firearm/edit/<%= firearm.firearmid %>" class="flex items-center bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg text-sm font-medium transition">Edit Details</a>
-        <button id="firearm-delete-btn" data-id="<%= firearm.firearmid %>" class="bg-red-900/20 hover:bg-red-900/40 text-red-500 px-4 py-2 rounded-lg text-sm font-medium transition border border-red-900/50">Delete</button>
+        <button type="button" @click="$dispatch('open-delete-modal', { id: '<%= firearm.firearmid %>', name: '<%= firearm.modelname %>' })" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-xl font-bold transition cursor-pointer">
+          Delete Firearm
+        </button>
       </div>
     </div>
   </nav>
@@ -22,7 +26,7 @@
       <!-- Image -->
       <div class="lg:col-span-8 space-y-2">
         <div class=" flex items-center justify-center bg-linear-to-b from-slate-900 to-slate-950 rounded-3xl p-4 md:p-8 border border-slate-800 shadow-2xl ">
-          <img src="<%= firearm.imagepath %>" alt="Firearm Image" class="w-fit max-h-fit rounded object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+          <img src="<%= firearm.imagepath %>" alt="Firearm Image" class="w-fit max-h-fit rounded object-contain drop-shadow-[0_20px_50px_rgba(0,0,0,0.8)]" onerror="this.src='https://clipart-library.com/images/XyckbAKTE.png'">
         </div>
 
         <!-- Attachment Section | will implement later -->
