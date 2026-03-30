@@ -7,4 +7,8 @@ module.exports = new Pool({
 	database: process.env.DATABASE_NAME,
 	password: process.env.PASSWORD,
 	port: process.env.PORT,
+	ssl:
+		process.env.NODE_ENV === "production"
+			? { rejectUnauthorized: false }
+			: false,
 });
