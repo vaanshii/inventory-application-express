@@ -25,7 +25,7 @@ exports.listFirearmsGet = async (req, res) => {
 
 		const categories = await Category.getAll();
 
-		res.render("views/index", {
+		res.render("index", {
 			title: "ArmaVault | Firearms",
 			firearms: firearms,
 			categories: categories,
@@ -50,7 +50,7 @@ exports.showFirearmGet = async (req, res) => {
 		console.log({ firearmData });
 
 		const categories = await Category.getAll();
-		res.render("views/showFirearm", {
+		res.render("showFirearm", {
 			title: firearmData[0].modelname,
 			activePage: "",
 			categories: categories,
@@ -71,7 +71,7 @@ exports.addFirearmGet = async (req, res) => {
 	try {
 		const categories = await Category.getAll();
 
-		res.render("views/addFirearm", {
+		res.render("addFirearm", {
 			title: "Add Firearm",
 			formData: "",
 			maxDate: today,
@@ -96,7 +96,7 @@ exports.addFirearmPost = [
 		const today = getCurrentDate;
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
-			return res.status(400).render("views/addFirearm", {
+			return res.status(400).render("addFirearm", {
 				title: "Add Firearm",
 				errors: errors.array(),
 				maxDate: today,
@@ -114,7 +114,7 @@ exports.addFirearmPost = [
 			res.redirect("/");
 		} catch (error) {
 			if (error.code === "23505") {
-				return res.status(400).render("views/addFirearm", {
+				return res.status(400).render("addFirearm", {
 					title: "Add Firearm",
 					errors: [{ msg: "Serial number already exists." }],
 					maxDate: today,
@@ -143,7 +143,7 @@ exports.editFirearmGet = async (req, res) => {
 		const categories = await Category.getAll();
 		const today = getCurrentDate;
 
-		res.render("views/components/firearmForm", {
+		res.render("components/firearmForm", {
 			categories: categories,
 			formData: normalizedFormDataVar,
 			action: `/firearm/update/:id`,
@@ -192,7 +192,7 @@ exports.updateFirearmPut = [
 		} catch (error) {
 			console.error("[updateFirearmPut]: ", error);
 			if (error.code === "23505") {
-				return res.status(400).render("views/components/firearmForm", {
+				return res.status(400).render("components/firearmForm", {
 					categories: categories,
 					formData: normalizedFormDataVar,
 					action: `/firearm/update/:id`,
